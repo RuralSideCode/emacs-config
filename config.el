@@ -51,7 +51,7 @@
 (setq org-ellipsis " >")
 (setq org-hide-emphasis-markers t)
 
-(dolist (face '((org-level-1 . 1.4)
+(after! 'org-faces ((dolist (face '((org-level-1 . 1.4)
                 (org-level-2 . 1.2)
                 (org-level-3 . 1.1)
                 (org-level-4 . 1.0)
@@ -59,7 +59,7 @@
                 (org-level-6 . 0.8)
                 (org-level-7 . 0.7)
                 (org-level-8 . 0.6)))
-        (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))
+        (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))))
 
 
 
