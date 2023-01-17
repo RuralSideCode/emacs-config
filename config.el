@@ -38,36 +38,48 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
 
-(set-face-attribute 'default nil :font "Roboto Mono" :height 150)
+(setq doom-font (font-spec :family "Roboto Mono" :size 20 :height 1.0))
+;; (set-face-attribute 'default nil :font "Roboto Mono" :height 150)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
 
 ;; MY CONFIG
+
+;; TAB-WIDTHS
+(defvar custom-tab-width 4)
+(setq-default tab-width custom-tab-width)
+(setq-default completion-tab-width custom-tab-width)
+(setq-default evil-shift-width custom-tab-width)
+
 (after! treemacs (setq treemacs-width 20))
 (after! doom-modeline (setq doom-modeline-height 15))
 
 (setq org-ellipsis " >")
 (setq org-hide-emphasis-markers t)
 
-(after! 'org-faces ((dolist (face '((org-level-1 . 1.4)
-                (org-level-2 . 1.2)
-                (org-level-3 . 1.1)
-                (org-level-4 . 1.0)
-                (org-level-5 . 0.9)
-                (org-level-6 . 0.8)
-                (org-level-7 . 0.7)
-                (org-level-8 . 0.6)))
-        (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))))
 
-
+(after! org (rural/set-org-faces-custom))
 
 
 
 
 ; (define-key tab-bar-make-keymap (triple-wheel-left) 'tab-bar-history-forward)
 ; (define-key tab-bar-make-keymap (triple-wheel-right) 'tab-bar-history-back)
+
+
+;; FUNCTIONS
+
+(defun rural/set-org-faces-custom ()
+    (defvar org-level-face-values
+    (('org-level-1 . 1.4)
+        ('org-level-2 . 1.2)
+        ('org-level-3 . 1.0)))
+
+    (dolist (face org-level-face-values)
+        (set-face-attribute (car face) nil :font "Source Sans Pro" :height (cdr face)))
+    )
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
