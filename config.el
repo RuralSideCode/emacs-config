@@ -32,15 +32,42 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-gruvbox)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type 'relative)
+
+(set-face-attribute 'default nil :font "Roboto Mono" :height 150)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
+
+;; MY CONFIG
+(after! treemacs (setq treemacs-width 20))
+(after! doom-modeline (setq doom-modeline-height 15))
+
+(setq org-ellipsis " >")
+(setq org-hide-emphasis-markers t)
+
+(dolist (face '((org-level-1 . 1.4)
+                (org-level-2 . 1.2)
+                (org-level-3 . 1.1)
+                (org-level-4 . 1.0)
+                (org-level-5 . 0.9)
+                (org-level-6 . 0.8)
+                (org-level-7 . 0.7)
+                (org-level-8 . 0.6)))
+        (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))
+
+
+
+
+
+
+; (define-key tab-bar-make-keymap (triple-wheel-left) 'tab-bar-history-forward)
+; (define-key tab-bar-make-keymap (triple-wheel-right) 'tab-bar-history-back)
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an

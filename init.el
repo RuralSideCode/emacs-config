@@ -35,8 +35,8 @@
        (emoji +unicode)  ; 🙂
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;hydra
-       ;;indent-guides     ; highlighted indent columns
-       ;;ligatures         ; ligatures and symbols to make your code pretty again
+       indent-guides     ; highlighted indent columns
+       ligatures         ; ligatures and symbols to make your code pretty again
        minimap           ; show a map of the code on the side
        modeline          ; snazzy, Atom-inspired modeline, plus API
        nav-flash         ; blink cursor line after big motions
@@ -59,7 +59,7 @@
        ;;(format +onsave)  ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
-       ;;multiple-cursors  ; editing in many places at once
+       multiple-cursors  ; editing in many places at once
        ;;objed             ; text object editing for the innocent
        ;;parinfer          ; turn lisp into python, sort of
        ;;rotate-text       ; cycle region at point between text candidates
@@ -191,33 +191,7 @@
 
        :config
        ;;literate
-       (default +bindings +smartparens))
+       (default +bindings +smartparens)
 
-(require 'package)
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")))
-(package-initialize)
-(unless package-archive-contents (package-refresh-contents))
-
-; If "use-package" is not installed, install it
-(unless (package-installed-p 'use-package) (package-install 'use-package))
-(require 'use-package)
-(setq use-package-always-ensure t)
-
-(set-face-attribute 'default nil :font "Roboto Mono" :height 150)
-
-(use-package doom-themes
-  :ensure t
-  :config
-  (setq doom-themes-enable-bold t)
-  (setq doom-themes-enable-italic t)
-  (load-theme 'doom-gruvbox t)
-  (doom-themes-visual-bell-config)
-  (doom-themes-treemacs-config))
-
-; Command Log Mode
-(use-package command-log-mode)
-
-(setq treemacs-width 20)
-(setq doom-modeline-height 15)
+       :Custom
+       KeyBindings)
