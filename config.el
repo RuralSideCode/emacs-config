@@ -1,57 +1,42 @@
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
-
-
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets. It is optional.
 (setq user-full-name "Hunter Moore"
       user-mail-address "hunter20018@gmail.com")
 
-;; Doom exposes five (optional) variables for controlling fonts in Doom:
-;;
-;; - `doom-font' -- the primary font to use
-;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
-;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
-;;   presentations or streaming.
-;; - `doom-unicode-font' -- for unicode glyphs
-;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
-;;
-;; See 'C-h v doom-font' for documentation and more examples of what they
-;; accept. For example:
-;;
-;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
-;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-;;
-;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
-;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
-;; refresh your font settings. If Emacs still can't find your font, it likely
-;; wasn't installed correctly. Font issues are rarely Doom issues!
+(after! org
+	(defun rural/set-org-faces-custom ()
+		(defvar org-level-face-values
+			'((org-level-1 . 1.4)
+			(org-level-2 . 1.2)
+			(org-level-3 . 1.1)
+			(org-level-4 . 1.0)
+			(org-level-5 . 0.9)
+			(org-level-6 . 0.8)
+			(org-level-7 . 0.8)
+			(org-level-8 . 0.8)))
 
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
+		(dolist (face org-level-face-values)
+			(set-face-attribute (car face) nil :font "Source Sans Pro" :height (cdr face)))))
+
+
+;; MY CONFIG
 (setq doom-theme 'doom-gruvbox)
 
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
+
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda() (org-bullets-mode 1)))
 
 (setq doom-font (font-spec :family "Roboto Mono" :size 20 :height 1.0))
 ;; (set-face-attribute 'default nil :font "Roboto Mono" :height 150)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "C:\\Users\\hunte\\OneDrive\\Org\\")
 
-;; MY CONFIG
-
-;; TAB-WIDTHS
 (defvar custom-tab-width 4)
-(setq-default tab-width custom-tab-width)
-(setq-default completion-tab-width custom-tab-width)
-(setq-default evil-shift-width custom-tab-width)
+(setq tab-width custom-tab-width)
+(setq completion-tab-width custom-tab-width)
+(setq evil-shift-width custom-tab-width)
+(setq indent-tabs-mode t)
 
 (after! treemacs (setq treemacs-width 20))
 (after! doom-modeline (setq doom-modeline-height 15))
@@ -59,27 +44,14 @@
 (setq org-ellipsis " >")
 (setq org-hide-emphasis-markers t)
 
-
 (after! org (rural/set-org-faces-custom))
 
-
-
+;; (define-key which-key-mode-map (kdb "C-n") 'which-key-show-next-page-cycle)
+;; (define-key which-key-mode-map (kdb "C-n") 'which-key-show-previous-page-cycle)
 
 ; (define-key tab-bar-make-keymap (triple-wheel-left) 'tab-bar-history-forward)
 ; (define-key tab-bar-make-keymap (triple-wheel-right) 'tab-bar-history-back)
 
-
-;; FUNCTIONS
-
-(defun rural/set-org-faces-custom ()
-    (defvar org-level-face-values
-    (('org-level-1 . 1.4)
-        ('org-level-2 . 1.2)
-        ('org-level-3 . 1.0)))
-
-    (dolist (face org-level-face-values)
-        (set-face-attribute (car face) nil :font "Source Sans Pro" :height (cdr face)))
-    )
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an

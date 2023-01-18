@@ -11,3 +11,5 @@
 
 ; Command Log Mode
 (package! command-log-mode)
+
+(package! org-bullets)
