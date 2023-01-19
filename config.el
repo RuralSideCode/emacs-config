@@ -1,17 +1,21 @@
 (setq user-full-name "Hunter Moore"
       user-mail-address "hunter20018@gmail.com")
 
+; If we are on windows then our org files will be stored on onedrive
+(defvar org-files "C:\\Users\\hunte\\OneDrive\\Org\\")
+;(if (eq system-type 'windows-nt) (setq org-files "%USERPROFILE%/OneDrive/Org/") (setq org-files "~/org/"))
+
 (after! org
 	(defun rural/set-org-faces-custom ()
 		(defvar org-level-face-values
-			'((org-level-1 . 1.4)
-			(org-level-2 . 1.2)
-			(org-level-3 . 1.1)
-			(org-level-4 . 1.0)
-			(org-level-5 . 0.9)
-			(org-level-6 . 0.8)
-			(org-level-7 . 0.8)
-			(org-level-8 . 0.8)))
+				'((org-level-1 . 1.4)
+				(org-level-2 . 1.3)
+				(org-level-3 . 1.2)
+				(org-level-4 . 1.1)
+				(org-level-5 . 1.0)
+				(org-level-6 . 0.8)
+				(org-level-7 . 0.8)
+				(org-level-8 . 0.8)))
 
 		(dolist (face org-level-face-values)
 			(set-face-attribute (car face) nil :font "Source Sans Pro" :height (cdr face)))))
@@ -25,18 +29,21 @@
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda() (org-bullets-mode 1)))
 
+(setq org-directory org-files)
+(setq org-agenda-files (list org-files))
+
 (setq doom-font (font-spec :family "Roboto Mono" :size 20 :height 1.0))
+; (setq doom-variable-pitch-font (font-spec :family "Cantarell" :size 20 :height 1.0))
 ;; (set-face-attribute 'default nil :font "Roboto Mono" :height 150)
 
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "C:\\Users\\hunte\\OneDrive\\Org\\")
 
 (defvar custom-tab-width 4)
 (setq tab-width custom-tab-width)
+(setq tab-always-indent nil)
 (setq completion-tab-width custom-tab-width)
 (setq evil-shift-width custom-tab-width)
 (setq indent-tabs-mode t)
+(setq evil-ex-search-persistent-highlight nil)
 
 (after! treemacs (setq treemacs-width 20))
 (after! doom-modeline (setq doom-modeline-height 15))
@@ -46,19 +53,54 @@
 
 (after! org (rural/set-org-faces-custom))
 
-;; (define-key which-key-mode-map (kdb "C-n") 'which-key-show-next-page-cycle)
-;; (define-key which-key-mode-map (kdb "C-n") 'which-key-show-previous-page-cycle)
+(setq ido-use-filename-at-point 'guess)
+(setq ido-create-new-buffer 'always)
 
-; (define-key tab-bar-make-keymap (triple-wheel-left) 'tab-bar-history-forward)
-; (define-key tab-bar-make-keymap (triple-wheel-right) 'tab-bar-history-back)
+(setq org-bullets-bullet-list '("◉" "○" "◉" "○"))
+
+(setq dired-listing-switches "-ahl -v --group-directories-first")
+
+"TODO: Add Linux support"
+(defun set-exec-path-from-shell-PATH ()
+  "Set up Emacs' `exec-path' and PATH environment variable to match that used by the user's shell."
+	(interactive)
+	(if (eq system-type 'windows-nt)
+		(setenv "PATH"
+				(concat
+				"C:\\Users\\hunte\\AppData\\Local\\Programs\\MiKTeX\\miktex\\bin\\x64" path-separator
+				(getenv "PATH"))) nil)
+	(let ((path (substitute-env-vars "$PATH") ))
+		(setenv "PATH" path)
+		(setq exec-path (split-string path path-separator))))
+
+(set-exec-path-from-shell-PATH)
+
+
+	;; Keybinds
+
+	;; (define-key counsel-find-file-map (kbd "C-l") 'ido-next-match)
+	;; (define-key counsel-find-file-map (kbd "C-h") 'ido-prev-match)
+	;; (define-key counsel-find-file-map (kbd "C-k") 'ido-next-match)
+	;; (define-key counsel-find-file-map (kbd "C-j") 'ido-prev-match)
+
+	(define-key org-mode-map [remap org-cycle-agenda-files] 'org-previous-visible-heading)
+	(define-key org-mode-map [remap evil-repeat-pop] 'org-next-visible-heading)
 
 
 
-;; Whenever you reconfigure a package, make sure to wrap your config in an
-;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
-;;
-;;   (after! PACKAGE
-;;     (setq x y))
+	;; (define-key which-key-mode-map (kdb "C-n") 'which-key-show-next-page-cycle)
+	;; (define-key which-key-mode-map (kdb "C-n") 'which-key-show-previous-page-cycle)
+
+	; (define-key tab-bar-make-keymap (triple-wheel-left) 'tab-bar-history-forward)
+	; (define-key tab-bar-make-keymap (triple-wheel-right) 'tab-bar-history-back)
+
+
+
+	;; Whenever you reconfigure a package, make sure to wrap your config in an
+	;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
+	;;
+	;;   (af
+	;;     (setq x y))
 ;;
 ;; The exceptions to this rule:
 ;;

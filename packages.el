@@ -8,8 +8,6 @@
 (setq use-package-always-ensure t)
 
 (package! all-the-icons)
-
-; Command Log Mode
 (package! command-log-mode)
-
 (package! org-bullets)
+(package! latex-preview-pane)
